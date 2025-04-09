@@ -4,6 +4,31 @@ noIndex: true
 
 # Release Notes
 
+## **Version 1.1.0 (March 27, 2025)**
+
+### ✨ **New Features**
+
+* Keep user sessions across AIR Kit dApps
+* Protect user accounts with MFA via Passkey
+* Login via EoA wallet
+* Soneium chain support (Testnet / Mainnet)
+
+### ➕ **Improvements**
+
+* Simplified transaction screens
+* Improved modal UI
+* Wallet can be preloaded in the background
+* Provider can be retrieved and subscribed to before wallet initialization
+* Paymaster policies can be defined per chain
+* Various minor bug fixes and optimizations
+
+### **⚠️ Notes**
+
+* The AA will only be returned after the user has MFA set up
+* MFA setup will automatically trigger on any wallet action
+
+
+
 ## **Version 1.0.0 (Feb 27, 2025)**
 
 ### ✨ **New Features**

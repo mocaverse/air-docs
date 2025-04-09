@@ -32,20 +32,22 @@ class AirService {
 ### Models
 
 ```dart
-enum Environment { staging, production }
 
+enum Environment { staging, production }
+​
 class LoginResult {
   final bool isLoggedIn;
   final String? id;
   final String? abstractAccountAddress;
   final String? token;
+  final bool isMFASetup;
 }
-
+​
 enum AirIdStatus {
   minting,
   minted,
 }
-
+​
 class AirId {
   final String id;
   final String name;
@@ -54,20 +56,21 @@ class AirId {
   final int? chainId;
   final String? imageUrl;
 }
-
+​
 class UserInfo {
   final AirId? airId;
   final String? partnerUserId;
   final String? partnerId;
   final User? user;
 }
-
+​
 class User {
   final String id;
   final String? abstractAccountAddress;
   final String? email;
+  final bool isMFASetup;
 }
-
+​
 class WalletResponse {
   final bool success;
   final String? result;

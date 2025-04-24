@@ -28,7 +28,6 @@ class AirService {
     preloadWallet(): Promise<AirWalletInitializedResult>;
     claimAirId(options?: ClaimAirIdOptions): Promise<ClaimAirIdResult>;
     getUserInfo(): Promise<AirUserDetails>;
-    goToPartner(partnerUrl: string): Promise<{ urlWithToken: string; }>
     on(listener: AirEventListener): void;
     off(listener: AirEventListener): void;
     clearEventListeners(): void;
@@ -37,8 +36,7 @@ class AirService {
 
 ### Types
 
-```typescript
-export type AirIdDetails = {
+<pre class="language-typescript"><code class="lang-typescript">export type AirIdDetails = {
   id: string;
   name?: string;
   node: string;
@@ -46,9 +44,9 @@ export type AirIdDetails = {
   chainId: number;
   imageUrl?: string;
 };
-
-export type AirUserDetails = {
-    partnerId: string;
+<strong>
+</strong><strong>export type AirUserDetails = {
+</strong>    partnerId: string;
     partnerUserId: string;
     airId?: AirIdDetails;
     user: {
@@ -116,4 +114,4 @@ export type ClaimAirIdOptions = {
     token: string;
     background: true;
 };
-```
+</code></pre>

@@ -15,4 +15,4 @@ If you encounter any problems feel free to reach out to your contact point withi
 
 ***
 
-_Note: Currently the SDK is still an invite only private beta. If you are interested you can sign up through this form_ [_here_](https://3pe3pp5s256.typeform.com/airkitform) _for more instructions._
+_Note: Currently the SDK is still an invite only private beta. If you are interested you can sign up through this form_ [_here_](https://air3-onboard.typeform.com/airkitform) _for more instructions._

@@ -9,10 +9,8 @@ The `AirService` instance offers following:
 | init(…)                  | The init method should generally be called right after creating the `AirService` instance.                                                                                                                                                                                       |
 | login(…)                 | This will login the user with their Global ID.                                                                                                                                                                                                                                   |
 | getUserInfo()            | Retrieves general user information.                                                                                                                                                                                                                                              |
-| goToPartner(...)         | Share the user's session from your dApp to another AIR Kit-enabled dApp.                                                                                                                                                                                                         |
 | getProvider()            | <p>Returns <code>Eip1193Provider</code> compatible with <a href="https://github.com/web3/web3.js">web3</a>, <a href="https://github.com/ethers-io/ethers.js">ethers</a>, <a href="https://viem.sh/">Viem</a>, etc.<br>This call will also load the wallet in the background.</p> |
 | preloadWallet()          | Loads the wallet in the background. Needs the user to be logged in.                                                                                                                                                                                                              |
-| setupOrUpdateMfa()       | Triggers the MFA enrollment screen where the user can set up or update the Passkey.                                                                                                                                                                                              |
 | claimAirId(…)            | After the user is logged in, this will start the mint flow. During this call the wallet will be loaded if not yet happened.                                                                                                                                                      |
 | isSmartAccountDeployed() | Check if the AA has been deployed. During this call the wallet will be loaded if not yet happened.                                                                                                                                                                               |
 | deploySmartAccount()     | Deploy the AA if not yet deployed. It will also automatically be deployed when minting an Air Id. During this call the wallet will be loaded if not yet happened.                                                                                                                |
@@ -85,56 +83,7 @@ After successful login an `AirLoginResult` will be returned which also contains 
 This token can be used in the future to query some of our partner endpoints.
 
 {% hint style="info" %}
-You can validate our token by using following JWKS endpoint:  [https://static.air3.com/.well-known/jwks.json](https://static.air3.com/.well-known/jwks.json)
-{% endhint %}
-
-### User Session Across AIR Kit dApps
-
-To maintain a user's logged in state across dApps in our ecosystem, we offer a convenient way to share the user's session from your dApp to another AIR Kit-enabled dApp.
-
-From your dApp, call `goToPartner(partnerUrl: string)` and pass in the target URL of the other dApp to receive an updated url which can be used to carry over the user. Once the user lands on the target dApp, the user session will automatically be rehydrated during SDK initialization.
-
-Example:
-
-```typescript
-const { urlWithToken } = await airService.goToPartner('https://www.partner-dapp.xyz/stake');
-document.window.href = urlWithToken;
-```
-
-{% hint style="warning" %}
-This method should be called at the time of navigating to the target url and not when displaying the link because the token attached to the url is short-lived. The target url also cannot be `localhost`.
-
-Additionally, the target dApp needs to make sure to allow automatic rehydration by not setting `skipRehydration` to `true` when calling `init(...)`.
-{% endhint %}
-
-### Handling MFA Requirements
-
-In order to make use of any wallet functionality, the user needs to have set up MFA which currently requires Passkey. After the user has set up the Passkey, any wallet action which requires signing or confirming a transaction will require users to verify their Passkey. This ensures funds are protected and only accessible by the user.
-
-By default, the MFA enrollment screen will automatically pop up whenever the user has not set up MFA yet and a wallet action is triggered. This also includes getting the accounts and balance checks.
-
-The MFA screen can also be programmatically triggered by calling `setupOrUpdateMfa()` before doing any wallet related actions if more control over the time of the MFA enrollment is needed.
-
-The example below illustrates a potential way of handling the MFA setup:
-
-```typescript
-const loggedInUser = await airService.login();
-
-// The wallet initialization can take a few seconds, so we can preload the wallet
-// in the background before we need it
-airService.preloadWallet();
-
-// Some time later...
-// If the user has not set up MFA yet and we want to trigger it now, we can do
-if(!loggedInUser.isMFASetup) {
-    await airService.setupOrUpdateMfa();
-}
-
-// At this point we're ready to use the wallet
-```
-
-{% hint style="warning" %}
-As long as the user has not set up MFA, the wallet address will not be returned via login, user info or token.
+You can validate our token by using following JWKS endpoint: [https://static.air3.com/.well-known/jwks.json](https://static.air3.com/.well-known/jwks.json)
 {% endhint %}
 
 ### Minting&#x20;

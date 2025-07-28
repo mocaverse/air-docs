@@ -2,22 +2,17 @@
 
 We offer many ways to customize the experience of the login and wallet. This includes theming, localization and other settings such as control over the login methods or recommended wallets.
 
+{% hint style="info" %}
+To customize the login experience reach out to us at support@moca.network
+{% endhint %}
+
 Below you can find all currently available settings:
 
 ```typescript
 { 
-  // Node of the air id, e.g. "moca"
-  node: string;
-  
-  // Gating mechanism for minting an id
-  gating: "none" | "jwt";
-  
   // Identifier of your theme which specifies the css property name
   // and html tag, e.g. "anime".
   theme?: string;
-  
-  // The chain id which is used to mint the id, e.g. "0x14a34" for Polygon
-  chainId: string;
   
   // A whitelist of origin hostnames, any other domain will abort
   // the service initialization. E.g. ["sdk-demo.web3.com"]
@@ -29,15 +24,8 @@ Below you can find all currently available settings:
   publicKey?: string;
   jwksUrl?: string;
   
-  // This sets rules on new air ids.
-  // The default values are min 4 and max 20.
-  realmIdValidation: {
-    minLength: number;
-    maxLength: number;
-  };
-  
   // Defines the available login methods in specified order
-  loginMethods?: ("passwordless", "passwordlessToggle", "google", "wallet", "passkey")[];
+  loginMethods?: ("passwordless", "passwordlessToggle", "google", "wallet")[];
 	
   // Defines the wallet options for the login and signup screen
   // in specified order. For this to show up, "wallet" needs to be
@@ -115,6 +103,7 @@ For custom theming the you can provide us following CSS custom properties below 
   --name-air-secondary-5-color: #E8E1FD;
 
   --name-air-background-color: var(--name-air-container-primary-color);
+  --name-air-logo: url('https://static.air3.com/assets/name-logo.png');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -164,13 +153,19 @@ For custom theming the you can provide us following CSS custom properties below 
     --name-air-secondary-5-color: #FFFFFF;
 
     --name-air-background-color: var(--name-air-container-primary-color);
+    --name-air-logo: url('https://static.air3.com/assets/name-logo-light.png');
   }
+}
 }
 ```
 
 {% hint style="info" %}
 If you only want to specify one theme and ignore dark/light, you can define the properties inside the `:root` without the `@media` block.
+
+By default both themes are supported with the details in the `:root` block&#x20;
 {% endhint %}
+
+
 
 ### Localization
 
@@ -187,7 +182,7 @@ Login:
     "termsOfUse": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "termsOfUseUrl": "https://www.mocaverse.xyz/terms-of-use",
-    "privacyPolicyUrl": "https://www.mocaverse.xyz/privacy-policy",
+    "privacyPolicyUrl": "https://moca.network/privacy_policy.pdf",
     "captcha": {
       "title": "Security Check Required",
       "description": "Please complete the security check below to continue",
@@ -412,7 +407,11 @@ Wallet Services:
       "contractDeployment": "Contract Deployment",
       "function": "Function"
     },
-    "windowBlocked": "Window blocked, please allow popups and try again"
+    "windowBlocked": "Window blocked, please allow popups and try again",
+    "retry":{
+      "title": "Allow pop up windows",
+      "description": "Pop-up blocked. Click ‘Retry’ to allow and continue"
+    }
   },
   "error": {
     "back": "Back",
@@ -439,7 +438,7 @@ Wallet Services:
         "title": " Set up passkey",
         "continue": "Continue",
         "benefit1Title": "Fast and convenient",
-        "benefit1Desc": "Seamlessly verify yourself with your face, fingerprint., PIN or hardware key in seconds",
+        "benefit1Desc": "Seamlessly verify yourself with your face, fingerprint, PIN or hardware key in seconds",
         "benefit2Title": "Works on all of your device",
         "benefit2Desc": "Your passkeys can be used across synced device",
         "protectDesc": "Your passkey helps protect your AIR Account, so make sure it’s stored somewhere safe and accessible by only you"

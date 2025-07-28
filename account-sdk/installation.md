@@ -2,18 +2,8 @@
 
 #### Installation
 
-The package is currently distributed via internal NPM repository and needs an access token. Please reach out to us.\
-You can use the token by adding following two lines to your project's `.npmrc` file:
-
 ```
-@mocanetwork:registry=https://registry.npmjs.org/
-//registry.npmjs.org/:_authToken=THE_TOKEN
-```
-
-The package can now be added to your `package.json`:
-
-```json
-"@mocanetwork/airkit": "^1.0.0"
+npm install @mocanetwork/airkit
 ```
 
 #### Bundling
@@ -22,7 +12,7 @@ This module is distributed in 3 formats
 
 * `esm` build `dist/airkit.esm.js` is es6 format
 * `commonjs` build `dist/airkit.cjs.js` in es5 format
-* `umd` build `dist/airkit.umd.min.js` in es5 format without polyfilling corejs minified
+* `umd` build `dist/airkit.umd.min.js` In ES5 format without polyfilling corejs minified
 
 By default, the appropriate format is used for your specified use case. A different format can be used (if you know what you're doing) by referencing the correct file.
 
@@ -114,7 +104,10 @@ export default defineConfig({
 {% endtab %}
 {% endtabs %}
 
+Let's get you started with integrating the AIR account \
 
+
+> Refer to this [GitHub Repo](https://github.com/MocaNetwork/airkit-example/blob/main/src/App.tsx) to understand the functionalities of the AIR Account SDK and setup the project locally.
 
 
 

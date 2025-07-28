@@ -1,6 +1,6 @@
 # Usage
 
-Once the SDK is installed and the `AirService` successfully initialized, it can be used to authenticate users. Further, the native provider given by the service instance can be used to let users interact with the blockchain.
+Once the SDK is installed and the `AirService` is successfully initialized, it can be used to authenticate users. Further, the native provider given by the service instance can be used to let users interact with the blockchain.
 
 The `AirService` instance offers following:
 
@@ -14,28 +14,48 @@ The `AirService` instance offers following:
 | getAccessToken()         | Returns the current access token or a new one in case of expiry.                                                                                                                                                                                                                 |
 | preloadWallet()          | Loads the wallet in the background. Needs the user to be logged in.                                                                                                                                                                                                              |
 | setupOrUpdateMfa()       | Triggers the MFA enrollment screen where the user can set up or update the Passkey.                                                                                                                                                                                              |
-| claimAirId(…)            | After the user is logged in, this will start the mint flow. During this call the wallet will be loaded if not yet happened.                                                                                                                                                      |
 | isSmartAccountDeployed() | Check if the AA has been deployed. During this call the wallet will be loaded if not yet happened.                                                                                                                                                                               |
 | deploySmartAccount()     | Deploy the AA if not yet deployed. It will also automatically be deployed when minting an Air Id. During this call the wallet will be loaded if not yet happened.                                                                                                                |
 | logout()                 | Logs out the user and clears up the session                                                                                                                                                                                                                                      |
 | clearInit()              | Clears the initialization of the `AirService`                                                                                                                                                                                                                                    |
 | on(…) / off(…)           | To keep in sync with the service's state, you can subscribe to it and receive events such as `initialized`, `logged_in`, `wallet_initialized`\*, `air_id_minting_started`\*, `air_id_minting_failed`\* and `logged_out`.                                                         |
 
-### Login & Mint
+### Import and Initialize
+
+The AirService creates an iframe that loads the login flow and sets up communication streams between the iframe and the DApp's JavaScript context.
+
+```typescript
+import { AirService, BUILD_ENV } from "@mocanetwork/airkit";
+
+const service = new AirService({
+  partnerId: YOUR_PARTNER_ID, // Replace with your actual Partner ID
+});
+await service.init({
+  buildEnv: BUILD_ENV.SANDBOX,
+  enableLogging: true,
+});
+
+// Without any parameters, this will trigger the default Air login dialog which provides different login methods for the user to choose from.
+await embed.login();
+```
+
+Once the SDK is installed and `AirService` is successfully initialized, it can be used to authenticate users.&#x20;
+
+### Login
 
 ```typescript
 login(options?: { authToken?: string; })
 : Promise<AirLoginResult>
 ```
 
-Without any parameters, this will trigger the default Air login dialog which provides different login methods for the user to choose from.\
+Without any parameters, this will trigger the default Air login dialog, which provides different login methods for the user to choose from.\
 We recommend to always require passing in a signed JWT via the `authToken` parameter with at minimum your `partnerId` inside the payload. This would also trigger the default login but enhances security. If you're having your users already authenticated on your side, you can add the `email` and `partnerUserId` to the payload as well.
 
 {% hint style="warning" %}
-If an email is provided, we will verify via a one-time password sent to this email since it is used as identifier on our side.
+If an email is provided, we will verify via a one-time password sent to this email since it is used as an identifier on our side.
 {% endhint %}
 
-An example JWT could look like following:
+An example JWT could look like the following:
 
 <pre class="language-json"><code class="lang-json"><strong>{
 </strong>  "partnerId": "YOUR PARTNER ID",
@@ -46,7 +66,7 @@ An example JWT could look like following:
 }
 </code></pre>
 
-In order to validate the JWTs on our end, we need to know your JWKS endpoint with following JSON:
+To validate the JWTs on our end, we need to know your JWKS endpoint with the following JSON:
 
 ```json
 {
@@ -72,28 +92,73 @@ The above JWKS should contain the public key only, but the JWT generated on your
 If you don't want to provide a JWKS endpoint, you can also provide us the public key directly.
 {% endhint %}
 
-After successful login an `AirLoginResult` will be returned which also contains a property `token` generated by us containing following information:
+After successful login, an `AirLoginResult` object will be returned, which also contains a property `token` generated by us containing the following information:
 
 ```typescript
 {
   sub: string,
   abstractAccountAddress: string,
   partnerId: string,
-  partnerUserId?: string
+  partnerUserId?: string,
+  sourcePartnerId?: string
 }
 ```
 
 This token can be used in the future to query some of our partner endpoints.
 
 {% hint style="info" %}
-You can validate our token by using following JWKS endpoint:  [https://static.air3.com/.well-known/jwks.json](https://static.air3.com/.well-known/jwks.json)
+You can validate our token by using the following JWKS endpoint:  [https://static.air3.com/.well-known/jwks.json](https://static.air3.com/.well-known/jwks.json)
 {% endhint %}
+
+The native provider given by the embed instance can now be used to let users interact with the blockchain.
+
+### Signing Example
+
+#### Using ethers
+
+```typescript
+
+const ethProvider = new BrowserProvider(service.provider, 'any');
+const signer = await ethProvider.getSigner();
+const signedMessage = await signer.signMessage('Your message');
+```
+
+#### Using Web3
+
+```typescript
+
+const web3 = new Web3(service.provider);
+const signedMessage = await web3.eth.personal.sign(
+    'Your message',
+    eoaAccount,
+    'password',
+);
+```
+
+Sending Transaction Example
+
+#### Using ethers
+
+```typescript
+const transactionParams: TransactionRequest = {...};
+const ethProvider = new BrowserProvider(service.provider, 'any');
+const signer = await ethProvider.getSigner();
+const response = signer.sendTransaction(transactionParams);
+```
+
+#### Using web3
+
+```typescript
+const transactionParams: Transaction = {...};
+const web3 = new Web3(service.provider);
+const response = await web3.eth.sendTransaction(transactionParams);
+```
 
 ### User Session Across AIR Kit dApps
 
-To maintain a user's logged in state across dApps in our ecosystem, we offer a convenient way to share the user's session from your dApp to another AIR Kit-enabled dApp.
+To maintain a user's logged-in state across dApps in our ecosystem, we offer a convenient way to share the user's session from your dApp to another AIR Kit-enabled dApp.
 
-From your dApp, call `goToPartner(partnerUrl: string)` and pass in the target URL of the other dApp to receive an updated url which can be used to carry over the user. Once the user lands on the target dApp, the user session will automatically be rehydrated during SDK initialization.
+From your dApp, call `goToPartner(partnerUrl: string)` and pass in the target URL of the other dApp to receive an updated URL, which can be used to carry over the user. Once the user lands on the target dApp, the user session will automatically be rehydrated during SDK initialization.
 
 Example:
 
@@ -110,11 +175,11 @@ Additionally, the target dApp needs to make sure to allow automatic rehydration 
 
 ### Handling MFA Requirements
 
-In order to make use of any wallet functionality, the user needs to have set up MFA which currently requires Passkey. After the user has set up the Passkey, any wallet action which requires signing or confirming a transaction will require users to verify their Passkey. This ensures funds are protected and only accessible by the user.
+In order to make use of any wallet functionality, the user needs to have set up MFA, which currently requires Passkey. After the user has set up the Passkey, any wallet action that requires signing or confirming a transaction will require users to verify their Passkey. This ensures funds are protected and only accessible by the user.
 
 By default, the MFA enrollment screen will automatically pop up whenever the user has not set up MFA yet and a wallet action is triggered. This also includes getting the accounts and balance checks.
 
-The MFA screen can also be programmatically triggered by calling `setupOrUpdateMfa()` before doing any wallet related actions if more control over the time of the MFA enrollment is needed.
+The MFA screen can also be programmatically triggered by calling `setupOrUpdateMfa()` Before doing any wallet-related actions, if more control over the time of the MFA enrollment is needed.
 
 The example below illustrates a potential way of handling the MFA setup:
 
@@ -131,69 +196,11 @@ if(!loggedInUser.isMFASetup) {
     await airService.setupOrUpdateMfa();
 }
 
-// At this point we're ready to use the wallet
+// At this point, we're ready to use the wallet
 ```
 
 {% hint style="warning" %}
 As long as the user has not set up MFA, the wallet address will not be returned via login, user info or token.
-{% endhint %}
-
-### Minting&#x20;
-
-#### Mint Settings
-
-In case a partner wants to control certain mint behaviors (e.g. gated minting) a JWT token can be passed in with following properties:
-
-```json
-{
-  "partnerId": "YOUR PARTNER ID",
-  "partnerUserId": "YOUR USER ID",
-  "eligibility": "none" | "normal" | "specific",
-  "mintName": "name" | null
-}
-```
-
-Eligibility cases:
-
-`none`: User is not eligible to mint new names (can login only)\
-`normal`: User can mint any name (except our internally reserved names)\
-`specific`: User can only mint the specified name in `mintName`
-
-{% hint style="info" %}
-If `eligibility` is set to `normal` but the `mintName` is not null, the specified name will be prefilled but not enforced.
-{% endhint %}
-
-#### Reserved Names
-
-During the mint flow we are doing a profanity check on the name and also a check against our internal reserved names list. If a partner has its own reserved names list, we can call a specified url on the partner side to additionally check the eligibility of each mint.
-
-The partners needs to provide following url and optionally api key and name:
-
-```
-GET partner_url
-Header { [api_key_name]: api_key }
-```
-
-Query params:
-
-```
-partnerId
-name
-email?
-walletAddress?
-token?
-```
-
-Response:
-
-```
-{
- "eligible": true | false;
-}
-```
-
-{% hint style="warning" %}
-We call the provided partner endpoint after we have done the profanity and reserved names check on our side. In case we cannot reach the endpoint, the mint request will be aborted.
 {% endhint %}
 
 ### Interact with blockchain

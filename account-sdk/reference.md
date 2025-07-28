@@ -8,7 +8,7 @@ class AirService {
         partnerId: string;
         modalZIndex?: number;
     });
-    get buildEnv(): BUILD_ENV_TYPE;
+    get buildEnv(): BUILD_ENV_TYPE; // available env: SANDBOX
     get isInitialized(): boolean;
     get isLoggedIn(): boolean;
     get isWalletInitialized(): boolean;
@@ -22,10 +22,11 @@ class AirService {
         authToken?: string;
     }): Promise<AirLoginResult>;
     isSmartAccountDeployed(): Promise<boolean>;
+    deploySmartAccount(): Promise<{ txHash: string; }>;
+    getCredentialSalt(): Promise<{ credentialSalt: string; }>;
     getProvider(): EIP1193Provider;
     preloadWallet(): Promise<void>;
     setupOrUpdateMfa(): Promise<void>;
-    claimAirId(options?: ClaimAirIdOptions): Promise<ClaimAirIdResult>;
     getUserInfo(): Promise<AirUserDetails>;
     goToPartner(partnerUrl: string): Promise<{ urlWithToken: string; }>;
     getAccessToken(): Promise<{ token: string; }>;

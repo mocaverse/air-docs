@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # Running a Validator Node
 
 ## **Minimum System Requirements**

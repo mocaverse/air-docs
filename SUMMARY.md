@@ -2,8 +2,11 @@
 
 ## Introduction
 
-* [Welcome!](README.md)
-* [Quickstart](introduction/quickstart.md)
+* [Moca Network Overview](README.md)
+  * [What is Moca Network?](introduction/moca-network-overview/what-is-moca-network.md)
+  * [Moca Chain: The Base Layer for Identity & Trust](introduction/moca-network-overview/moca-chain-the-base-layer-for-identity-and-trust.md)
+  * [AIR Kit: Your tool to build on the Identity Stack](introduction/moca-network-overview/air-kit-your-tool-to-build-on-the-identity-stack.md)
+* [Introduction!](introduction/introduction.md)
 
 ## About
 
@@ -15,6 +18,7 @@
 
 ## Account SDK
 
+* [Quickstart](account-sdk/quickstart.md)
 * [Installation](account-sdk/installation.md)
 * [Usage](account-sdk/usage.md)
 * [Customization](account-sdk/customization.md)
@@ -44,8 +48,9 @@
 * [Architecture & Core Technologies](air-credentials/architecture-and-core-technologies.md)
 * [Core Technologies and Key Components](air-credentials/core-technologies-and-key-components/README.md)
   * [Issuing Credentials](air-credentials/core-technologies-and-key-components/issuing-credentials.md)
-  * [Issuer SDK](air-credentials/core-technologies-and-key-components/issuer-sdk.md)
+  * [Issuer Module](air-credentials/core-technologies-and-key-components/issuer-module.md)
   * [Verifiable Credentials](air-credentials/core-technologies-and-key-components/verifiable-credentials.md)
-  * [Verifier SDK](air-credentials/core-technologies-and-key-components/verifier-sdk.md)
+  * [Verifier Module](air-credentials/core-technologies-and-key-components/verifier-module.md)
 * [Integration Flow](air-credentials/integration-flow/README.md)
   * [User Flow](air-credentials/integration-flow/user-flow.md)
+* [Quickstart Guide](air-credentials/quickstart-guide.md)

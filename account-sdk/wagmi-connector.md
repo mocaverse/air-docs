@@ -20,7 +20,7 @@ const wagmiConfig = createConfig({
   connectors: [
     airConnector({
       partnerId: {{YOUR_PARTNER_ID}},
-    }) as CreateConnectorFn,
+    }),
   ],
 });
 ```
@@ -55,11 +55,3 @@ const airConnector = useMemo<AirConnector | null>(() => {
 
 const service = airConnector.airService;
 ```
-
-{% hint style="warning" %}
-Currently we're not supporting following features:
-
-* Add Chain
-* Switch Chain
-* Sign Typed Message
-{% endhint %}

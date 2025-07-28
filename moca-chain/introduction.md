@@ -2,7 +2,7 @@
 
 ## What is Moca Chain
 
-Moca Chain is an innovative decentralized ledger with an integrated decentralized data storage platform, engineered to leverage transformative capabilities for enhancing personal data ownership and revolutionizing the way data is monetized. The infrastructure is dedicated to providing advanced decentralized data management and accessibility, aiming to transform the data economy by streamlining data storage and management processes. It uniquely integrates data ownership with the AIR Credential, providing a seamless connection between personal data and digital identity. The ultimate goal of Moca Chain is to revolutionize the management and monetization of personal data through a privacy-centric, decentralized framework that empowers individuals as the primary controllers and beneficiaries of their data.
+[Moca Chain](https://mocachain.org/en) is an innovative decentralized ledger with an integrated decentralized data storage platform, engineered to leverage transformative capabilities for enhancing personal data ownership and revolutionizing the way data is monetized. The infrastructure is dedicated to providing advanced decentralized data management and accessibility, aiming to transform the data economy by streamlining data storage and management processes. It uniquely integrates data ownership with the AIR Credential, providing a seamless connection between personal data and digital identity. The ultimate goal of Moca Chain is to revolutionize the management and monetization of personal data through a privacy-centric, decentralized framework that empowers individuals as the primary controllers and beneficiaries of their data.
 
 ## The Need for a Paradigm Shift in Personal Data Management
 

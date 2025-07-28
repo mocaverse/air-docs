@@ -1,22 +1,22 @@
 # Chain Setup
 
-To interact with Moca Chain and manage your assets, you will need to manually add the Moca Chain network to your wallet. This setup ensures that you can securely track assets, send transactions, and access Moca Chain's DApps. Here are the network details you need:
+To interact with Moca Chain and manage your assets, you will need to add the Moca Chain network to your wallet manually. This setup ensures that you can securely track assets, send transactions, and access Moca Chain's decentralized applications (DApps). Here are the network details you need:
 
 ## Moca Chain Testnet
 
 **Network Name**: Moca Chain Testnet
 
-**RPC URL**: [https://testnet-rpc.mechain.tech/](https://testnet-rpc.mechain.tech/)
+**RPC URL:** [https://devnet-rpc.mocachain.org/](https://devnet-rpc.mocachain.org/)
+
+* **Specific RPC URL for EU:** [https://devnet-rpc-eu.mocachain.org/](https://devnet-rpc-eu.mocachain.org/)
 
 **Chain ID**: 5151
 
 **Currency Symbol**: Moca
 
-**Explorer:** [https://testnet-scan.mechain.tech](https://testnet-scan.mechain.tech/)
+**Explorer:** [https://devnet-scan.mocachain.tech](https://devnet-scan.mocachain.org/faucet)
 
-**Faucet:** [https://testnet-scan.mechain.tech/faucet](https://testnet-scan.mechain.tech/faucet)
-
-**API Url**: [https://testnet-lcd.mechain.tech](https://testnet-lcd.mechain.tech/)
+**Faucet:** [https://devnet-scan.mocachain.tech/faucet](https://devnet-scan.mocachain.org/)
 
 **Consensus**: Tendermint-based Proof-of-Stake (CometBFT)
 

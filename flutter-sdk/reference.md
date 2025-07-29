@@ -5,42 +5,83 @@
 ```dart
 class AirService {
 
-  static Future<void> initialize(
-      {required String partnerId,
-        required Uri redirectUrl,
-        Environment env = Environment.production});
+  Stream<AirEvent> get airEvents;
 
-  static bool isLoggedIn();
+  void on(AirEventListener listener);
+  void off(AirEventListener listener);
+  void clearEventListeners();
   
-  static Future<UserInfo> getUserInfo();
-  
-  static Future<LoginResult> rehydrate();
+  bool get isInitialized;
 
-  static Future<LoginResult> login(
-      {required String authToken, OnOtpRequest? onOtpRequest});
+  Future<void> initialize({
+    required String partnerId,
+    Environment env = Environment.production,
+    required GlobalKey<NavigatorState> navigatorKey,
+    bool enableLogging = false,
+  });
 
-  static Future<void> logout();
+  Future<LoginResult> login({
+    required String authToken,
+    OnOtpRequest? onOtpRequest,
+  });
 
-  // below methods aren't ready in version 0.2.x
-  static Future<LoginResult> claimId({String? token});
+  Future<LoginResult> rehydrate();
 
-  static Future<WalletResponse> request(
-      {required String method, List<dynamic> requestParams = const []});
-}
+  Future<UserInfo> getUserInfo();
+
+  Future<void> preloadWallet();
+
+  Future<String?> getAbstractAccountAddress();
+
+  Future<List<String>> getAccounts();
+
+  Future<void> setupOrUpdateMfa();
+
+  Future<BigInt> getBalance(String address);
+
+  Future<EthereumRpcSuccessResponse> call(
+    String address,
+    String function,
+    List<dynamic> params,
+    String abi,
+  );
+
+  Future<String> signMessage(String message);
+
+  Future<String> sendTransaction(Transaction transaction);
+
+  Future<EthereumRpcSuccessResponse> sendEthereumRpcRequest(
+    EthereumRpcRequest request
+  );
+
+  Future<String> deploySmartAccount();
+
+  Future<bool> isSmartAccountDeployed();
+
+  Future<void> showSwapUi();
+
+  Future<void> showOnRampUi({
+    required String displayCurrencyCode,
+    String? targetCurrencyCode,
+  });
+
+  Future<void> logout();
+
+  void cleanup();
 ```
 
 ### Models
 
 ```dart
 
-enum Environment { staging, production }
+enum Environment { staging, uat, sandbox, production }
 ​
 class LoginResult {
   final bool isLoggedIn;
   final String? id;
   final String? abstractAccountAddress;
   final String? token;
-  final bool isMFASetup;
+  final bool? isMFASetup;
 }
 ​
 enum AirIdStatus {
@@ -71,9 +112,39 @@ class User {
   final bool isMFASetup;
 }
 ​
-class WalletResponse {
-  final bool success;
-  final String? result;
-  final String? error;
+class EthereumRpcRequest {
+  final String method;
+  final List<dynamic> params;
+  final String? requestId;
+}
+
+class EthereumRpcSuccessResponse {
+  final dynamic response;
+}
+
+class AirEvent { }
+
+class AirInitializedEvent extends AirEvent { 
+
+class AirLoggedInEvent extends AirEvent {
+  final LoginResult payload;
+}
+
+class AirLoggedOutEvent extends AirEvent { }
+
+class AirWalletInitializedEvent extends AirEvent { }
+
+typedef AirEventListener = void Function(AirEvent event);
+
+enum ExceptionType {
+  client,
+  sdk,
+  server,
+  unknown,
+}
+
+class AirKitException implements Exception {
+  final String message;
+  final ExceptionType type;
 }
 ```
